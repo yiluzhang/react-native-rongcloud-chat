@@ -74,7 +74,7 @@ function App(): React.JSX.Element {
   useEffect(() => {
     const sub1 = RongCloudChat.addConnectionStatusListener((res) => {
       console.log('连接状态更新', res.code);
-      setState(parseInt(res.code, 10));
+      setState(res.code);
     });
 
     const sub2 = RongCloudChat.addMessageReceivedListener((res) => {
