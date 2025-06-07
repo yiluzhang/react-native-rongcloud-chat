@@ -56,7 +56,7 @@ const emitter = new NativeEventEmitter(RongCloudChat);
 
 const addConnectionStatusListener: RongCloudChatType['addConnectionStatusListener'] = (listener) => emitter.addListener('onRCIMConnectionStatusChanged', listener);
 
-const addMessageReceivedListener: RongCloudChatType['addMessageReceivedListener'] = (listener) => emitter.addListener('RCIMMessageReceived', listener);
+const addMessageReceivedListener: RongCloudChatType['addMessageReceivedListener'] = (listener) => emitter.addListener('onRCIMMessageReceived', listener);
 
 const addChatClosedListener: RongCloudChatType['addChatClosedListener'] = (listener) => emitter.addListener('onRCIMChatClosed', listener);
 
