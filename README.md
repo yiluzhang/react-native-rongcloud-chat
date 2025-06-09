@@ -1,6 +1,6 @@
 # react-native-rongcloud-chat
 
-融云 IM 聊天组件，支持 Android 和 iOS 平台。
+融云 IM KIT 简易封装，支持 Android 和 iOS 平台。
 
 ## 功能
 - 支持新消息接收
@@ -32,6 +32,9 @@ RongCloudChat.logout();
 
 // 设置用户信息或群组信息
 RongCloudChat.refreshInfoCache({ type: 'user', id: 'user_identifier', name: 'Nickname', portrait: 'https://image.cn/avatar.png' });
+
+// 接收新消息
+RongCloudChat.addMessageReceivedListener((res) => { console.log('收到新消息：', res); });
 
 // 打开聊天页
 RongCloudChat.openChat(1, 'user_identifier');

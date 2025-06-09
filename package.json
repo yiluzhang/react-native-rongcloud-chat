@@ -43,7 +43,10 @@
   "keywords": [
     "react-native",
     "ios",
-    "android"
+    "android",
+    "rong cloud",
+    "im kit",
+    "im lib"
   ],
   "repository": {
     "type": "git",
