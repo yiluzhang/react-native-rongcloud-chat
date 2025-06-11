@@ -46,9 +46,9 @@ public class RongCloudMessageListener {
         map.putString("messageUId", message.getUId());
         map.putInt("messageDirection", message.getMessageDirection().getValue());
         map.putString("senderUserId", message.getSenderUserId());
-        map.putLong("sentTime", message.getSentTime());
+        map.putDouble("sentTime", message.getSentTime());
         map.putInt("sentStatus", message.getSentStatus().getValue());
-        map.putLong("receivedTime", message.getReceivedTime());
+        map.putDouble("receivedTime", message.getReceivedTime());
         map.putInt("receivedStatus", message.getReceivedStatus().getFlag());
         map.putString("extra", message.getExtra());
 
@@ -71,7 +71,7 @@ public class RongCloudMessageListener {
             map.putString("referMsgUid", refMsg.getReferMsgUid());
         } else if (content instanceof FileMessage) {
             FileMessage fileMsg = (FileMessage) content;
-            map.putLong("size", fileMsg.getSize());
+            map.putDouble("size", fileMsg.getSize());
             map.putString("type", fileMsg.getType());
         } else if (content instanceof VoiceMessage) {
             VoiceMessage voiceMsg = (VoiceMessage) content;
@@ -81,7 +81,7 @@ public class RongCloudMessageListener {
             map.putInt("duration", voiceMsg.getDuration());
         } else if (content instanceof SightMessage) {
             SightMessage sightMsg = (SightMessage) content;
-            map.putLong("size", sightMsg.getSize());
+            map.putDouble("size", sightMsg.getSize());
             map.putInt("duration", sightMsg.getDuration());
         }
 
