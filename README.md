@@ -1,6 +1,6 @@
 # react-native-rongcloud-chat
 
-融云 IM KIT 简易封装，支持 Android 和 iOS 平台。
+融云 IM KIT 5.12.5 简易封装，支持 Android 和 iOS 平台。
 
 ## 功能
 - 支持新消息接收
