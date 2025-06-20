@@ -4,6 +4,21 @@ const { RongCloudChat } = NativeModules;
 
 export type ObjectName = 'RC:TxtMsg' | 'RC:ReferenceMsg' | 'RC:FileMsg' | 'RC:ImgMsg' | 'RC:HQVCMsg' | 'RC:VcMsg' | 'RC:GIFMsg' | 'RC:LBSMsg' | 'RC:SightMsg';
 
+export const ConversationType = {
+  PRIVATE: 1, // 单聊
+  DISCUSSION: 2, // 讨论组
+  GROUP: 3, // 群组
+  CHATROOM: 4, // 聊天室
+  CUSTOMER_SERVICE: 5, // 客服
+  SYSTEM: 6, // 系统
+  APP_PUBLIC_SERVICE: 7, // 应用内公众服务
+  PUBLIC_SERVICE: 8, // 跨应用公众服务
+  PUSH_SERVICE: 9, // 推送服务
+  ULTRA_GROUP: 10, // 超级群
+  ENCRYPTED: 11, // 加密会话
+  RTC_ROOM: 12, // RTC 会话
+} as const;
+
 export interface RCIMMessage {
   conversationType: number;
   targetId: string;
