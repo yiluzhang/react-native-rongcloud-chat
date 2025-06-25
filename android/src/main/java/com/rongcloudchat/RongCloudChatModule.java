@@ -46,10 +46,13 @@ public class RongCloudChatModule extends ReactContextBaseJavaModule {
     }
 
     public static void sendEvent(String eventName, @Nullable WritableMap data) {
+        WritableMap copiedMap = Arguments.createMap();
+        copiedMap.merge(data);
+
         if (reactContext != null && reactContext.hasActiveReactInstance()) {
             reactContext
                     .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                    .emit(eventName, data);
+                    .emit(eventName, copiedMap);
         }
     }
 
