@@ -66,9 +66,7 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
   [super viewWillDisappear:animated];
-  if (self.isMovingFromParentViewController || self.isBeingDismissed) {
-    [RongCloudChat sendEvent:@"onRCIMChatClosed" body:@{ @"conversationType": @((NSInteger)self.conversationType), @"targetId": self.targetId ?: @"" }];
-  }
+  [RongCloudChat sendEvent:@"onRCIMChatClosed" body:@{ @"conversationType": @((NSInteger)self.conversationType), @"targetId": self.targetId ?: @"" }];
 }
 
 - (void)viewDidLayoutSubviews {
