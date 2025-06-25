@@ -3,6 +3,7 @@ package com.rongcloudchat;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.util.TypedValue;
 import android.widget.ImageView;
 
@@ -46,13 +47,18 @@ public class RongCloudChatModule extends ReactContextBaseJavaModule {
     }
 
     public static void sendEvent(String eventName, @Nullable WritableMap data) {
-        WritableMap copiedMap = Arguments.createMap();
-        copiedMap.merge(data);
+        WritableMap copiedMap = null;
+        if (data != null) {
+            copiedMap = Arguments.createMap();
+            copiedMap.merge(data);
+        }
 
         if (reactContext != null && reactContext.hasActiveReactInstance()) {
             reactContext
                     .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                     .emit(eventName, copiedMap);
+        } else {
+            Log.w("RongCloudChatModule", "Cannot send event: " + eventName + " - reactContext is not ready");
         }
     }
 
