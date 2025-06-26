@@ -25,6 +25,7 @@ RCT_EXPORT_MODULE();
     @"onRCIMConnectionStatusChanged",
     @"onRCIMMessageReceived",
     @"onRCIMChatClosed",
+    @"onRCIMChatLatestMessage",
     @"onRCIMInfoRequested"
   ];
 }
@@ -40,7 +41,7 @@ RCT_EXPORT_MODULE();
 }
 
 - (void)onRCIMReceiveMessage:(RCMessage *)message left:(int)left {
-  [RongCloudChat sendEvent:@"onRCIMMessageReceived" body:@{@"message":[self dictionaryFromRCMessage:message], @"left":@(left)}];
+  [RongCloudChat sendEvent:@"onRCIMMessageReceived" body:@{@"message":[RongCloudChat dictionaryFromRCMessage:message], @"left":@(left)}];
 }
 
 - (void)getUserInfoWithUserId:(NSString *)userId
@@ -183,7 +184,7 @@ RCT_EXPORT_METHOD(clearMessagesUnreadStatus:(NSInteger)conversationType
   });
 }
 
-- (NSDictionary *)dictionaryFromRCMessage:(RCMessage *)message {
++ (NSDictionary *)dictionaryFromRCMessage:(RCMessage *)message {
   NSMutableDictionary *dict = [NSMutableDictionary dictionary];
   dict[@"conversationType"] = @(message.conversationType);
   dict[@"targetId"] = message.targetId;

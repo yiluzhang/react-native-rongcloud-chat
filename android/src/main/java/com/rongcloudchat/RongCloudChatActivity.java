@@ -1,5 +1,7 @@
 package com.rongcloudchat;
 
+import static com.rongcloudchat.RongCloudMessageListener.messageToWritableMap;
+
 import android.Manifest;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -28,8 +30,10 @@ import java.util.List;
 import io.rong.imkit.conversation.ConversationFragment;
 import io.rong.imkit.userinfo.RongUserInfoManager;
 import io.rong.imkit.utils.PermissionCheckUtil;
+import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Group;
+import io.rong.imlib.model.Message;
 import io.rong.imlib.model.UserInfo;
 
 public class RongCloudChatActivity extends AppCompatActivity {
@@ -154,11 +158,32 @@ public class RongCloudChatActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        int conversationType = getIntent().getIntExtra("conversationType", 1);
+        String targetId = getIntent().getStringExtra("targetId");
         WritableMap data = Arguments.createMap();
-        data.putInt("conversationType", getIntent().getIntExtra("conversationType", 1));
-        data.putString("targetId", getIntent().getStringExtra("targetId"));
+        data.putInt("conversationType", conversationType);
+        data.putString("targetId", targetId);
         RongCloudChatModule.sendEvent("onRCIMChatClosed", data);
+        sendLatestMessage(conversationType, targetId);
         super.onDestroy();
+    }
+
+    private void sendLatestMessage(int conversationType, String targetId) {
+        RongIMClient.getInstance().getLatestMessages(Conversation.ConversationType.setValue(conversationType), targetId, 1, new RongIMClient.ResultCallback<List<Message>>() {
+            @Override
+            public void onSuccess(List<Message> messages) {
+                if (messages != null && !messages.isEmpty()) {
+                    WritableMap data = Arguments.createMap();
+                    data.putInt("conversationType", conversationType);
+                    data.putString("targetId", targetId);
+                    data.putMap("message", messageToWritableMap(messages.get(0)));
+                    RongCloudChatModule.sendEvent("onRCIMChatLatestMessage", data);
+                }
+            }
+
+            @Override
+            public void onError(RongIMClient.ErrorCode errorCode) {}
+        });
     }
 
     private String getPermissionTip(List<String> permissions) {

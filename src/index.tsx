@@ -63,6 +63,8 @@ type RongCloudChatType = {
   addMessageReceivedListener(listener: (event: { message: RCIMMessage; left: number }) => void): EmitterSubscription;
   // 聊天窗口关闭时会触发此事件
   addChatClosedListener(listener: (event: { conversationType: number; targetId: string }) => void): EmitterSubscription;
+  // 聊天窗口关闭时，接收最新的消息
+  addChatLatestMessageListener(listener: (event: { conversationType: number; targetId: string; message: RCIMMessage }) => void): EmitterSubscription;
   // SDK 请求用户信息或群组信息时会触发此事件
   addInfoRequestedListener(listener: (event: { type: 'user' | 'group'; id: string }) => void): EmitterSubscription;
 };
@@ -74,6 +76,8 @@ const addConnectionStatusListener: RongCloudChatType['addConnectionStatusListene
 const addMessageReceivedListener: RongCloudChatType['addMessageReceivedListener'] = (listener) => emitter.addListener('onRCIMMessageReceived', listener);
 
 const addChatClosedListener: RongCloudChatType['addChatClosedListener'] = (listener) => emitter.addListener('onRCIMChatClosed', listener);
+
+const addChatLatestMessageListener: RongCloudChatType['addChatLatestMessageListener'] = (listener) => emitter.addListener('onRCIMChatLatestMessage', listener);
 
 const addInfoRequestedListener: RongCloudChatType['addInfoRequestedListener'] = (listener) => emitter.addListener('onRCIMInfoRequested', listener);
 
@@ -91,6 +95,7 @@ const RongCloudChatModule: RongCloudChatType = {
   addConnectionStatusListener,
   addMessageReceivedListener,
   addChatClosedListener,
+  addChatLatestMessageListener,
   addInfoRequestedListener,
 };
 

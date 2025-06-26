@@ -67,6 +67,17 @@
 - (void)viewWillDisappear:(BOOL)animated {
   [super viewWillDisappear:animated];
   [RongCloudChat sendEvent:@"onRCIMChatClosed" body:@{ @"conversationType": @((NSInteger)self.conversationType), @"targetId": self.targetId ?: @"" }];
+  [[RCCoreClient sharedCoreClient] getLatestMessages:(RCConversationType)self.conversationType targetId:self.targetId count:1 completion:^(NSArray<RCMessage *> * _Nullable messages) {
+    if (messages.count > 0) {
+      RCMessage *msg = messages.firstObject;
+      NSDictionary *data = @{
+        @"conversationType": @((NSInteger)self.conversationType),
+        @"targetId": self.targetId ?: @"",
+        @"message": [RongCloudChat dictionaryFromRCMessage:messages.firstObject]
+      };
+      [RongCloudChat sendEvent:@"onRCIMChatLatestMessage" body:data];
+    }
+  }];
 }
 
 - (void)viewDidLayoutSubviews {
