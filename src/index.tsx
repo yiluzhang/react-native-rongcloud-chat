@@ -4,19 +4,70 @@ const { RongCloudChat } = NativeModules;
 
 export type ObjectName = 'RC:TxtMsg' | 'RC:ReferenceMsg' | 'RC:FileMsg' | 'RC:ImgMsg' | 'RC:HQVCMsg' | 'RC:VcMsg' | 'RC:GIFMsg' | 'RC:LBSMsg' | 'RC:SightMsg';
 
+export const MessageDirection = {
+  // 发送
+  SEND: 1,
+  // 接收
+  RECEIVE: 2,
+} as const;
+
 export const ConversationType = {
-  PRIVATE: 1, // 单聊
-  DISCUSSION: 2, // 讨论组
-  GROUP: 3, // 群组
-  CHATROOM: 4, // 聊天室
-  CUSTOMER_SERVICE: 5, // 客服
-  SYSTEM: 6, // 系统
-  APP_PUBLIC_SERVICE: 7, // 应用内公众服务
-  PUBLIC_SERVICE: 8, // 跨应用公众服务
-  PUSH_SERVICE: 9, // 推送服务
-  ULTRA_GROUP: 10, // 超级群
-  ENCRYPTED: 11, // 加密会话
-  RTC_ROOM: 12, // RTC 会话
+  // 单聊
+  PRIVATE: 1,
+  // 讨论组
+  DISCUSSION: 2,
+  // 群组
+  GROUP: 3,
+  // 聊天室
+  CHATROOM: 4,
+  // 客服
+  CUSTOMER_SERVICE: 5,
+  // 系统
+  SYSTEM: 6,
+  // 应用内公众服务
+  APP_PUBLIC_SERVICE: 7,
+  // 跨应用公众服务
+  PUBLIC_SERVICE: 8,
+  // 推送服务
+  PUSH_SERVICE: 9,
+  // 超级群
+  ULTRA_GROUP: 10,
+  // 加密会话
+  ENCRYPTED: 11,
+  // RTC 会话
+  RTC_ROOM: 12,
+} as const;
+
+export const SentStatus = {
+  // 发送中
+  SENDING: 10,
+  // 发送失败
+  FAILED: 20,
+  // 已发送成功
+  SENT: 30,
+  // 对方已接收
+  RECEIVED: 40,
+  /// 对方已阅读
+  READ: 50,
+  // 对方已销毁
+  DESTROYED: 60,
+  // 发送已取消
+  CANCELED: 70,
+} as const;
+
+export const ReceivedStatus = {
+  // 未读
+  UNREAD: 0,
+  // 已读
+  READ: 1,
+  // 已听，仅用于语音消息
+  LISTENED: 2,
+  // 已下载
+  DOWNLOADED: 4,
+  // 该消息已被同时在线或之前登录的其他设备接收。只要任何其他设备先收到该消息，当前设备就会有该状态值。
+  RETRIEVED: 8,
+  // 该消息是被多端同时收取的。（即其他端正同时登录，一条消息被同时发往多端。客户可以通过这个状态值更新自己的某些 UI 状态）。
+  MULTIPLERECEIVE: 16,
 } as const;
 
 export interface RCIMMessage {
@@ -34,12 +85,18 @@ export interface RCIMMessage {
   receivedStatus: number;
   extra: string;
   content: string;
-  name?: string; // 媒体类消息的文件名称
-  localPath?: string; // 媒体类消息的本地路径
-  remoteUrl?: string; // 媒体类消息的远程路径
-  duration?: number; // 媒体类消息的时长
-  size?: number; // 文件消息或视频消息的文件大小
-  type?: string; // 文件消息的文件类型
+  // 媒体类消息的文件名称
+  name?: string;
+  // 媒体类消息的本地路径
+  localPath?: string;
+  // 媒体类消息的远程路径
+  remoteUrl?: string;
+  // 媒体类消息的时长
+  duration?: number;
+  // 文件消息或视频消息的文件大小
+  size?: number;
+  // 文件消息的文件类型
+  type?: string;
 }
 
 type RongCloudChatType = {
