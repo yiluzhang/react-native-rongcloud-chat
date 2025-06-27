@@ -36,7 +36,7 @@ public class RongCloudMessageListener {
         isRegistered = RongIMClient.addOnReceiveMessageListener(messageListener);
     }
 
-    private static WritableMap messageToWritableMap(Message message) {
+    public static WritableMap messageToWritableMap(Message message) {
         WritableMap map = Arguments.createMap();
         map.putInt("conversationType", message.getConversationType().getValue());
         map.putString("targetId", message.getTargetId());
