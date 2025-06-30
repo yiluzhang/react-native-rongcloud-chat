@@ -16,6 +16,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.facebook.react.bridge.*;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 
+import java.util.List;
 import java.util.Objects;
 
 import io.rong.imkit.GlideKitImageEngine;
@@ -188,7 +189,7 @@ public class RongCloudChatModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void clearMessagesUnreadStatus(int conversationType, String targetId, Promise promise) {
         Conversation.ConversationType type = Conversation.ConversationType.setValue(conversationType);
-        RongIM.getInstance().clearMessagesUnreadStatus(type, targetId, new RongIMClient.ResultCallback<Boolean>() {
+        RongIMClient.getInstance().clearMessagesUnreadStatus(type, targetId, new RongIMClient.ResultCallback<Boolean>() {
             @Override
             public void onSuccess(Boolean aBoolean) {
                 promise.resolve(true);
@@ -197,6 +198,24 @@ public class RongCloudChatModule extends ReactContextBaseJavaModule {
             @Override
             public void onError(RongIMClient.ErrorCode errorCode) {
                 promise.reject(String.valueOf(errorCode.getValue()), errorCode.getMessage());
+            }
+        });
+    }
+
+    @ReactMethod
+    public void markAllConversationsAsRead(Promise promise) {
+        RongIMClient.getInstance().getConversationList(new RongIMClient.ResultCallback<List<Conversation>>() {
+            @Override
+            public void onSuccess(List<Conversation> conversations) {
+                for (Conversation c : conversations) {
+                    RongIMClient.getInstance().clearMessagesUnreadStatus(c.getConversationType(), c.getTargetId(), null);
+                }
+                promise.resolve(true);
+            }
+
+            @Override
+            public void onError(RongIMClient.ErrorCode errorCode) {
+                promise.reject(String.valueOf(errorCode.getValue()), "获取会话列表失败");
             }
         });
     }

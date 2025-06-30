@@ -184,6 +184,33 @@ RCT_EXPORT_METHOD(clearMessagesUnreadStatus:(NSInteger)conversationType
   });
 }
 
+RCT_EXPORT_METHOD(markAllConversationsAsRead:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject) {
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [[RCCoreClient sharedCoreClient] getConversationList:@[
+      @(ConversationType_PRIVATE),
+      @(ConversationType_DISCUSSION),
+      @(ConversationType_GROUP),
+      @(ConversationType_CHATROOM),
+      @(ConversationType_CUSTOMERSERVICE),
+      @(ConversationType_SYSTEM),
+      @(ConversationType_APPSERVICE),
+      @(ConversationType_PUBLICSERVICE),
+      @(ConversationType_PUSHSERVICE)
+    ] completion:^(NSArray<RCConversation *> * _Nullable conversationList) {
+      if (conversationList == nil) {
+        reject(@"-1", @"会话列表为空或获取失败", nil);
+        return;
+      }
+
+      for (RCConversation *c in conversationList) {
+        [[RCCoreClient sharedCoreClient] clearMessagesUnreadStatus:c.conversationType targetId:c.targetId completion:nil];
+      }
+      resolve(@(YES));
+    }];
+  });
+}
+
 + (NSDictionary *)dictionaryFromRCMessage:(RCMessage *)message {
   NSMutableDictionary *dict = [NSMutableDictionary dictionary];
   dict[@"conversationType"] = @(message.conversationType);

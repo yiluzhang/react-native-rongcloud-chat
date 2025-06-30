@@ -114,6 +114,8 @@ type RongCloudChatType = {
   clearHistoryMessages(conversationType: number, targetId: string, recordTime: number, clearRemote: boolean): Promise<boolean>;
   // 清除未读消息数量
   clearMessagesUnreadStatus(conversationType: number, targetId: string): Promise<boolean>;
+  // 全部已读
+  markAllConversationsAsRead(): Promise<boolean>;
   // 连接状态变化时会触发此事件
   addConnectionStatusListener(listener: (event: { code: number }) => void): EmitterSubscription;
   // 收到新消息时会触发此事件
@@ -149,6 +151,7 @@ const RongCloudChatModule: RongCloudChatType = {
   clearInfoCache: RongCloudChat.clearInfoCache,
   clearHistoryMessages: RongCloudChat.clearHistoryMessages,
   clearMessagesUnreadStatus: RongCloudChat.clearMessagesUnreadStatus,
+  markAllConversationsAsRead: RongCloudChat.markAllConversationsAsRead,
   addConnectionStatusListener,
   addMessageReceivedListener,
   addChatClosedListener,
