@@ -1,4 +1,4 @@
-import { NativeEventEmitter, NativeModules, type EmitterSubscription } from 'react-native';
+import { NativeEventEmitter, NativeModules, Platform, type EmitterSubscription } from 'react-native';
 
 const { RongCloudChat } = NativeModules;
 
@@ -101,6 +101,8 @@ export interface RCIMMessage {
 
 type RongCloudChatType = {
   init(appKey: string): void;
+  // 关闭本地通知，仅 Android 端支持
+  setLocalNotificationEnabled(enabled: boolean): void;
   connect(token: string, name: string, portrait: string): Promise<boolean>;
   disconnect(): void;
   logout(): void;
@@ -108,7 +110,7 @@ type RongCloudChatType = {
   getConnectionStatus(): Promise<{ code: number }>;
   // 设置用户信息或群组信息缓存
   refreshInfoCache(userInfo: { type: 'user' | 'group'; id: string; name: string; portrait: string }): void;
-  // 清空用户信息或群组信息缓存，Android 端不支持
+  // 清空用户信息或群组信息缓存，仅 iOS 端支持
   clearInfoCache(): void;
   // 清除历史消息
   clearHistoryMessages(conversationType: number, targetId: string, recordTime: number, clearRemote: boolean): Promise<boolean>;
@@ -128,6 +130,18 @@ type RongCloudChatType = {
   addInfoRequestedListener(listener: (event: { type: 'user' | 'group'; id: string }) => void): EmitterSubscription;
 };
 
+const setLocalNotificationEnabled: RongCloudChatType['setLocalNotificationEnabled'] = (enabled) => {
+  if (Platform.OS === 'android') {
+    RongCloudChat.setLocalNotificationEnabled(enabled);
+  }
+};
+
+const clearInfoCache: RongCloudChatType['clearInfoCache'] = () => {
+  if (Platform.OS === 'ios') {
+    RongCloudChat.clearInfoCache();
+  }
+};
+
 const emitter = new NativeEventEmitter(RongCloudChat);
 
 const addConnectionStatusListener: RongCloudChatType['addConnectionStatusListener'] = (listener) => emitter.addListener('onRCIMConnectionStatusChanged', listener);
@@ -142,13 +156,14 @@ const addInfoRequestedListener: RongCloudChatType['addInfoRequestedListener'] = 
 
 const RongCloudChatModule: RongCloudChatType = {
   init: RongCloudChat.init,
+  setLocalNotificationEnabled,
   connect: RongCloudChat.connect,
   getConnectionStatus: RongCloudChat.getConnectionStatus,
   disconnect: RongCloudChat.disconnect,
   logout: RongCloudChat.logout,
   openChat: RongCloudChat.openChat,
   refreshInfoCache: RongCloudChat.refreshInfoCache,
-  clearInfoCache: RongCloudChat.clearInfoCache,
+  clearInfoCache,
   clearHistoryMessages: RongCloudChat.clearHistoryMessages,
   clearMessagesUnreadStatus: RongCloudChat.clearMessagesUnreadStatus,
   markAllConversationsAsRead: RongCloudChat.markAllConversationsAsRead,

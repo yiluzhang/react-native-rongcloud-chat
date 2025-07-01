@@ -39,6 +39,7 @@ public class RongCloudChatModule extends ReactContextBaseJavaModule {
         reactContext = context;
         RongCloudMessageListener.registerMessageListener();
         RongCloudConnectionListener.registerConnectionStatusListener();
+        RongConfigCenter.notificationConfig().setInterceptor(new MyNotificationInterceptor());
     }
 
     @NonNull
@@ -82,6 +83,11 @@ public class RongCloudChatModule extends ReactContextBaseJavaModule {
             sendEvent("onRCIMInfoRequested", params);
             return null;
         }, true);
+    }
+
+    @ReactMethod
+    public void setLocalNotificationEnabled(boolean enabled) {
+        MyNotificationInterceptor.setNotificationDisabled(!enabled);
     }
 
     @ReactMethod
@@ -161,11 +167,6 @@ public class RongCloudChatModule extends ReactContextBaseJavaModule {
             Group group = new Group(id, name, android.net.Uri.parse(portrait));
             RongIM.getInstance().refreshGroupInfoCache(group);
         }
-    }
-
-    @ReactMethod
-    public void clearInfoCache() {
-        // NO API
     }
 
     @ReactMethod
