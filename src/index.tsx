@@ -137,12 +137,6 @@ type RongCloudChatType = {
   addInfoRequestedListener(listener: (event: { type: 'user' | 'group'; id: string }) => void): EmitterSubscription;
 };
 
-const setLocalNotificationEnabled: RongCloudChatType['setLocalNotificationEnabled'] = (enabled) => {
-  if (Platform.OS === 'android') {
-    RongCloudChat.setLocalNotificationEnabled(enabled);
-  }
-};
-
 const clearInfoCache: RongCloudChatType['clearInfoCache'] = () => {
   if (Platform.OS === 'ios') {
     RongCloudChat.clearInfoCache();
@@ -163,7 +157,7 @@ const addInfoRequestedListener: RongCloudChatType['addInfoRequestedListener'] = 
 
 const RongCloudChatModule: RongCloudChatType = {
   init: RongCloudChat.init,
-  setLocalNotificationEnabled,
+  setLocalNotificationEnabled: RongCloudChat.setLocalNotificationEnabled,
   connect: RongCloudChat.connect,
   getConnectionStatus: RongCloudChat.getConnectionStatus,
   disconnect: RongCloudChat.disconnect,
