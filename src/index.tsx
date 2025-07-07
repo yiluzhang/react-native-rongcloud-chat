@@ -106,7 +106,7 @@ export type TextMessageSendData = {
 
 type RongCloudChatType = {
   init(appKey: string): void;
-  // 关闭本地通知，仅 Android 端支持
+  // 关闭本地通知，在 init 之后 connect 之前调用
   setLocalNotificationEnabled(enabled: boolean): void;
   connect(token: string, name: string, portrait: string): Promise<boolean>;
   disconnect(): void;
