@@ -1,5 +1,7 @@
 package com.rongcloudchat;
 
+import static com.rongcloudchat.RongCloudMessageListener.messageToWritableMap;
+
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
@@ -29,7 +31,9 @@ import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Group;
 import io.rong.imlib.model.Message;
+import io.rong.imlib.model.MessageContent;
 import io.rong.imlib.model.UserInfo;
+import io.rong.message.TextMessage;
 
 public class RongCloudChatModule extends ReactContextBaseJavaModule {
     private static ReactApplicationContext reactContext;
@@ -217,6 +221,47 @@ public class RongCloudChatModule extends ReactContextBaseJavaModule {
             @Override
             public void onError(RongIMClient.ErrorCode errorCode) {
                 promise.reject(String.valueOf(errorCode.getValue()), "获取会话列表失败");
+            }
+        });
+    }
+
+    @ReactMethod
+    public void sendMessage(int conversationType, String targetId, ReadableMap contentMap, Promise promise) {
+        Conversation.ConversationType type = Conversation.ConversationType.setValue(conversationType);
+
+        String objectName = contentMap.hasKey("objectName") ? contentMap.getString("objectName") : null;
+        if (objectName == null || objectName.isEmpty()) {
+            promise.reject("invalid_object_name", "Missing or invalid objectName in contentMap");
+            return;
+        }
+
+        MessageContent content = null;
+
+        if ("RC:TxtMsg".equals(objectName)) {
+            String text = contentMap.hasKey("content") ? contentMap.getString("content") : "";
+            content = TextMessage.obtain(text);
+        } else {
+            promise.reject("unsupported_type", "Unsupported message type: " + objectName);
+            return;
+        }
+
+        Message message = Message.obtain(targetId, type, content);
+
+        RongIM.getInstance().sendMessage(message, null, null, new IRongCallback.ISendMessageCallback() {
+            @Override
+            public void onAttached(Message message) {
+                // 消息已插入本地数据库
+            }
+
+            @Override
+            public void onSuccess(Message message) {
+                WritableMap map = messageToWritableMap(message);
+                promise.resolve(map);
+            }
+
+            @Override
+            public void onError(Message message, RongIMClient.ErrorCode errorCode) {
+                promise.reject(String.valueOf(errorCode.getValue()), "发送失败: " + errorCode.getMessage());
             }
         });
     }

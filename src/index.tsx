@@ -99,6 +99,11 @@ export interface RCIMMessage {
   type?: string;
 }
 
+export type TextMessageSendData = {
+  objectName: 'RC:TxtMsg';
+  content: string;
+};
+
 type RongCloudChatType = {
   init(appKey: string): void;
   // 关闭本地通知，仅 Android 端支持
@@ -118,6 +123,8 @@ type RongCloudChatType = {
   clearMessagesUnreadStatus(conversationType: number, targetId: string): Promise<boolean>;
   // 全部已读
   markAllConversationsAsRead(): Promise<boolean>;
+  // 发送消息（暂只支持文本消息）
+  sendMessage(conversationType: number, targetId: string, data: TextMessageSendData): Promise<RCIMMessage>;
   // 连接状态变化时会触发此事件
   addConnectionStatusListener(listener: (event: { code: number }) => void): EmitterSubscription;
   // 收到新消息时会触发此事件
@@ -167,6 +174,7 @@ const RongCloudChatModule: RongCloudChatType = {
   clearHistoryMessages: RongCloudChat.clearHistoryMessages,
   clearMessagesUnreadStatus: RongCloudChat.clearMessagesUnreadStatus,
   markAllConversationsAsRead: RongCloudChat.markAllConversationsAsRead,
+  sendMessage: RongCloudChat.sendMessage,
   addConnectionStatusListener,
   addMessageReceivedListener,
   addChatClosedListener,

@@ -211,6 +211,54 @@ RCT_EXPORT_METHOD(markAllConversationsAsRead:(RCTPromiseResolveBlock)resolve
   });
 }
 
+RCT_EXPORT_METHOD(sendMessage:(NSInteger)conversationType
+                  targetId:(NSString *)targetId
+                  contentMap:(NSDictionary *)contentMap
+                  resolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
+{
+  dispatch_async(dispatch_get_main_queue(), ^{
+    RCConversationType type = (RCConversationType)conversationType;
+
+    NSString *objectName = contentMap[@"objectName"];
+    if (![objectName isKindOfClass:[NSString class]] || objectName.length == 0) {
+      reject(@"invalid_object_name", @"Missing or invalid objectName in contentMap", nil);
+      return;
+    }
+
+    RCMessageContent *content = nil;
+
+    if ([objectName isEqualToString:@"RC:TxtMsg"]) {
+      NSString *text = contentMap[@"content"] ?: @"";
+      content = [RCTextMessage messageWithContent:text];
+    } else {
+      reject(@"unsupported_type", [NSString stringWithFormat:@"Unsupported message type: %@", objectName], nil);
+      return;
+    }
+
+    RCMessage *message = [[RCMessage alloc] initWithType:type
+                                                targetId:targetId
+                                               direction:MessageDirection_SEND
+                                               messageId:-1
+                                                 content:content];
+
+    [[RCIM sharedRCIM] sendMessage:type
+                          targetId:targetId
+                           content:content
+                       pushContent:nil
+                          pushData:nil
+                           success:^(long messageId) {
+      RCMessage *sentMessage = [[RCCoreClient sharedCoreClient] getMessage:messageId];
+      NSDictionary *map = [RongCloudChat dictionaryFromRCMessage:sentMessage];
+      resolve(map);
+    } error:^(RCErrorCode nErrorCode, long messageId) {
+      reject([NSString stringWithFormat:@"%ld", (long)nErrorCode],
+             [NSString stringWithFormat:@"发送失败: %ld", (long)nErrorCode],
+             nil);
+    }];
+  });
+}
+
 + (NSDictionary *)dictionaryFromRCMessage:(RCMessage *)message {
   NSMutableDictionary *dict = [NSMutableDictionary dictionary];
   dict[@"conversationType"] = @(message.conversationType);
