@@ -24,6 +24,7 @@ import java.util.Objects;
 import io.rong.imkit.GlideKitImageEngine;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.config.RongConfigCenter;
+import io.rong.imlib.IRongCallback;
 import io.rong.imlib.IRongCoreCallback;
 import io.rong.imlib.IRongCoreEnum;
 import io.rong.imlib.RongCoreClient;
