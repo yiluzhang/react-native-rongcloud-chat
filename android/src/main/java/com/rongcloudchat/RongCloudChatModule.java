@@ -24,7 +24,6 @@ import java.util.Objects;
 import io.rong.imkit.GlideKitImageEngine;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.config.RongConfigCenter;
-import io.rong.imkit.notification.NotificationConfig;
 import io.rong.imlib.IRongCallback;
 import io.rong.imlib.IRongCoreCallback;
 import io.rong.imlib.IRongCoreEnum;
@@ -45,7 +44,7 @@ public class RongCloudChatModule extends ReactContextBaseJavaModule {
         reactContext = context;
         RongCloudMessageListener.registerMessageListener();
         RongCloudConnectionListener.registerConnectionStatusListener();
-        RongConfigCenter.notificationConfig().setInterceptor(new MyNotificationInterceptor());
+        RongConfigCenter.notificationConfig().setInterceptor(new MyNotificationInterceptor(context));
     }
 
     @NonNull
@@ -92,16 +91,13 @@ public class RongCloudChatModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void setLocalNotificationEnabled(boolean enabled) {
-        MyNotificationInterceptor.setNotificationDisabled(!enabled);
+    public void disableMessageNotification(boolean disable) {
+        MyNotificationInterceptor.setDisableNotificationBar(disable);
     }
 
     @ReactMethod
-    public void setLocalNotificationSoundEnabled(boolean enabled) {
-        RongConfigCenter.notificationConfig().setForegroundOtherPageAction(
-                enabled ? NotificationConfig.ForegroundOtherPageAction.Sound
-                        : NotificationConfig.ForegroundOtherPageAction.Silent
-        );
+    public void disableMessageAlertSound(boolean disable) {
+        MyNotificationInterceptor.setDisableNotificationSound(disable);
     }
 
     @ReactMethod

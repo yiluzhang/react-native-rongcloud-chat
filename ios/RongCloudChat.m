@@ -67,15 +67,15 @@ RCT_EXPORT_METHOD(init:(NSString *)appKey) {
   });
 }
 
-RCT_EXPORT_METHOD(setLocalNotificationEnabled:(BOOL)enabled) {
+RCT_EXPORT_METHOD(disableMessageNotification:(BOOL)disable) {
   dispatch_async(dispatch_get_main_queue(), ^{
-    RCKitConfigCenter.message.disableMessageNotificaiton = !enabled;
+    RCKitConfigCenter.message.disableMessageNotificaiton = disable;
   });
 }
 
-RCT_EXPORT_METHOD(setLocalNotificationSoundEnabled:(BOOL)enabled) {
+RCT_EXPORT_METHOD(disableMessageAlertSound:(BOOL)disable) {
   dispatch_async(dispatch_get_main_queue(), ^{
-    RCKitConfigCenter.message.disableMessageAlertSound = !enabled;
+    RCKitConfigCenter.message.disableMessageAlertSound = disable;
   });
 }
 
