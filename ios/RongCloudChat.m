@@ -73,6 +73,12 @@ RCT_EXPORT_METHOD(setLocalNotificationEnabled:(BOOL)enabled) {
   });
 }
 
+RCT_EXPORT_METHOD(setLocalNotificationSoundEnabled:(BOOL)enabled) {
+  dispatch_async(dispatch_get_main_queue(), ^{
+    RCKitConfigCenter.message.disableMessageAlertSound = !enabled;
+  });
+}
+
 RCT_REMAP_METHOD(connect,
                  token:(NSString *)token
                  name:(NSString *)name
