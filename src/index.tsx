@@ -106,10 +106,10 @@ export type TextMessageSendData = {
 
 type RongCloudChatType = {
   init(appKey: string): void;
-  // 关闭本地通知，在 init 之后 connect 之前调用
-  setLocalNotificationEnabled(enabled: boolean): void;
-  // 关闭本地通知声音
-  setLocalNotificationSoundEnabled(enabled: boolean): void;
+  // 关闭新消息声音提醒
+  disableMessageAlertSound(disable: boolean): void;
+  // 关闭新消息通知栏提醒
+  disableMessageNotification(disable: boolean): void;
   connect(token: string, name: string, portrait: string): Promise<boolean>;
   disconnect(): void;
   logout(): void;
@@ -159,8 +159,8 @@ const addInfoRequestedListener: RongCloudChatType['addInfoRequestedListener'] = 
 
 const RongCloudChatModule: RongCloudChatType = {
   init: RongCloudChat.init,
-  setLocalNotificationEnabled: RongCloudChat.setLocalNotificationEnabled,
-  setLocalNotificationSoundEnabled: RongCloudChat.setLocalNotificationSoundEnabled,
+  disableMessageAlertSound: RongCloudChat.disableMessageAlertSound,
+  disableMessageNotification: RongCloudChat.disableMessageNotification,
   connect: RongCloudChat.connect,
   getConnectionStatus: RongCloudChat.getConnectionStatus,
   disconnect: RongCloudChat.disconnect,

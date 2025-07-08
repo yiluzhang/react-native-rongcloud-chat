@@ -42,6 +42,21 @@ RongCloudChat.openChat(1, 'user_identifier');
 // 删除历史消息
 RongCloudChat.clearHistoryMessages(1, 'user_identifier', 0, true);
 
+// 清除未读会话
+RongCloudChat.clearMessagesUnreadStatus(1, 'targetId');
+
+// 清除全部未读
+RongCloudChat.markAllConversationsAsRead();
+
+// 发送消息（只支持文本消息）
+RongCloudChat.sendMessage(1, 'targetId', { objectName: 'RC:TxtMsg', content: 'hi kid' });
+
+// 关闭新消息通知栏提醒（本地通知）
+RongCloudChat.disableMessageNotification(true);
+
+// 关闭新消息声音提醒
+RongCloudChat.disableMessageAlertSound(true);
+
 ```
 
 ## License
