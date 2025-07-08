@@ -1,6 +1,6 @@
 {
   "name": "react-native-rongcloud-chat",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "description": "Rong Cloud IM Kit SDK Wrapper",
   "main": "./lib/module/index.js",
   "types": "./lib/typescript/src/index.d.ts",
