@@ -1654,7 +1654,7 @@ PODS:
     - React-logger (= 0.79.2)
     - React-perflogger (= 0.79.2)
     - React-utils (= 0.79.2)
-  - RongCloudChat (0.4.1):
+  - RongCloudChat (0.12.1):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1677,24 +1677,24 @@ PODS:
     - ReactCodegen
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
-    - RongCloudIM/IMKit (~> 5.12.5)
+    - RongCloudIM/IMKit (= 5.21.1)
     - Yoga
-  - RongCloudIM/ChatRoom (5.12.5):
+  - RongCloudIM/ChatRoom (5.21.1):
     - RongCloudIM/IMLibCore
-  - RongCloudIM/CustomerService (5.12.5):
+  - RongCloudIM/CustomerService (5.21.1):
     - RongCloudIM/IMLibCore
-  - RongCloudIM/Discussion (5.12.5):
+  - RongCloudIM/Discussion (5.21.1):
     - RongCloudIM/IMLibCore
-  - RongCloudIM/IMKit (5.12.5):
+  - RongCloudIM/IMKit (5.21.1):
     - RongCloudIM/IMLib
-  - RongCloudIM/IMLib (5.12.5):
+  - RongCloudIM/IMLib (5.21.1):
     - RongCloudIM/ChatRoom
     - RongCloudIM/CustomerService
     - RongCloudIM/Discussion
     - RongCloudIM/IMLibCore
     - RongCloudIM/PublicService
-  - RongCloudIM/IMLibCore (5.12.5)
-  - RongCloudIM/PublicService (5.12.5):
+  - RongCloudIM/IMLibCore (5.21.1)
+  - RongCloudIM/PublicService (5.21.1):
     - RongCloudIM/IMLibCore
   - SocketRocket (0.7.1)
   - Yoga (0.0.0)
@@ -1994,8 +1994,8 @@ SPEC CHECKSUMS:
   ReactAppDependencyProvider: d5dcc564f129632276bd3184e60f053fcd574d6b
   ReactCodegen: fda99a79c866370190e162083a35602fdc314e5d
   ReactCommon: 4d0da92a5eb8da86c08e3ec34bd23ab439fb2461
-  RongCloudChat: e8fd5edbd56ba444ec74e5360d6727d2a3b63eb9
-  RongCloudIM: bb3b40992ce8b018e552298e23cf614e6ebc1c42
+  RongCloudChat: 1bdfbf0cd3da6f485a08e23174fb91d519cfcad0
+  RongCloudIM: d2d19490f7146dc03a487f08ef68b18706336dd6
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
   Yoga: c758bfb934100bb4bf9cbaccb52557cee35e8bdf
 

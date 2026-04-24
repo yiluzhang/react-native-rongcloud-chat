@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/yiluzhang/react-native-rongcloud-chat.git", :tag => "#{s.version}" }
 
   s.source_files = "ios/**/*.{h,m,mm,cpp}"
-  s.dependency 'RongCloudIM/IMKit', '~> 5.12.5'
+  s.dependency 'RongCloudIM/IMKit', '= 5.21.1'
   s.private_header_files = "ios/**/*.h"
 
  install_modules_dependencies(s)

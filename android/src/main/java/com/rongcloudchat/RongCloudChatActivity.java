@@ -8,8 +8,10 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.TypedValue;
+import android.view.ViewGroup;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -20,6 +22,9 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableMap;
@@ -47,6 +52,7 @@ public class RongCloudChatActivity extends AppCompatActivity {
 
         getWindow().getDecorView().setSystemUiVisibility(android.view.View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         getWindow().setStatusBarColor(Color.WHITE);
+        getWindow().setNavigationBarColor(Color.WHITE);
         setContentView(R.layout.rong_chat_activity);
 
         // 注册权限回调
@@ -95,7 +101,10 @@ public class RongCloudChatActivity extends AppCompatActivity {
         }
 
         // 设置 Toolbar
+        View root = findViewById(R.id.root);
         Toolbar toolbar = findViewById(R.id.toolbar);
+        View container = findViewById(R.id.rong_container);
+        applySystemBarInsets(root, toolbar, container);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -145,6 +154,39 @@ public class RongCloudChatActivity extends AppCompatActivity {
                 .beginTransaction()
                 .replace(R.id.rong_container, fragment)
                 .commit();
+    }
+
+    private void applySystemBarInsets(View root, Toolbar toolbar, View container) {
+        final int toolbarBaseHeight = toolbar.getLayoutParams().height;
+        final int toolbarBasePaddingLeft = toolbar.getPaddingLeft();
+        final int toolbarBasePaddingRight = toolbar.getPaddingRight();
+        final int toolbarBasePaddingBottom = toolbar.getPaddingBottom();
+        final int containerBasePaddingLeft = container.getPaddingLeft();
+        final int containerBasePaddingRight = container.getPaddingRight();
+        final int containerBasePaddingBottom = container.getPaddingBottom();
+
+        ViewCompat.setOnApplyWindowInsetsListener(root, (view, windowInsets) -> {
+            Insets systemBars = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+
+            ViewGroup.LayoutParams toolbarLayoutParams = toolbar.getLayoutParams();
+            toolbarLayoutParams.height = toolbarBaseHeight + systemBars.top;
+            toolbar.setLayoutParams(toolbarLayoutParams);
+            toolbar.setPadding(
+                    toolbarBasePaddingLeft + systemBars.left,
+                    systemBars.top,
+                    toolbarBasePaddingRight + systemBars.right,
+                    toolbarBasePaddingBottom
+            );
+
+            container.setPadding(
+                    containerBasePaddingLeft + systemBars.left,
+                    container.getPaddingTop(),
+                    containerBasePaddingRight + systemBars.right,
+                    containerBasePaddingBottom + systemBars.bottom
+            );
+            return windowInsets;
+        });
+        ViewCompat.requestApplyInsets(root);
     }
 
     @Override
