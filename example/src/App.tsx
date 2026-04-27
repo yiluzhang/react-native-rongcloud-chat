@@ -142,6 +142,7 @@ function App(): React.JSX.Element {
       <StatusBar barStyle="dark-content" backgroundColor="#fff" />
       <View style={styles.tipContainer}>
         <Text style={[styles.txt, { paddingBottom: 12 }]}>
+          {user && `当前用户：${user.name}\r\n`}
           {state === undefined && '未连接'}
           {state === 0 && '开始聊天'}
           {state ? STATE_MAP[state] || `未知状态 ${state}` : null}
