@@ -24,6 +24,7 @@ import java.util.Objects;
 import io.rong.imkit.GlideKitImageEngine;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.config.RongConfigCenter;
+import io.rong.imkit.utils.RouteUtils;
 import io.rong.imlib.IRongCallback;
 import io.rong.imlib.IRongCoreCallback;
 import io.rong.imlib.IRongCoreEnum;
@@ -72,6 +73,7 @@ public class RongCloudChatModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void init(String appKey) {
         RongIM.init((Application) getReactApplicationContext().getApplicationContext(), appKey);
+        RouteUtils.registerActivity(RouteUtils.RongActivityType.FilePreviewActivity, SafeFilePreviewActivity.class);
 
         RongIM.setUserInfoProvider(userId -> {
             WritableMap params = Arguments.createMap();

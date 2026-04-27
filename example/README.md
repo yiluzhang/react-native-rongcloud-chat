@@ -24,6 +24,9 @@ With Metro running, open a new terminal window/pane from the root of your React 
 
 ### Android
 
+This example uses the library's legacy Android bridge module, so `newArchEnabled` must remain `false` in `android/gradle.properties`.
+If you changed that flag, reinstall the app before testing again.
+
 ```sh
 # Using npm
 npm run android

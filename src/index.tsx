@@ -2,6 +2,21 @@ import { NativeEventEmitter, NativeModules, Platform, type EmitterSubscription }
 
 const { RongCloudChat } = NativeModules;
 
+const LINKING_ERROR =
+  `The native module 'RongCloudChat' is not available. ` +
+  `Rebuild the app after linking the package, and disable React Native New Architecture on Android until this library provides a TurboModule implementation.`;
+
+const RongCloudChatNativeModule = RongCloudChat
+  ? RongCloudChat
+  : new Proxy(
+      {},
+      {
+        get() {
+          throw new Error(LINKING_ERROR);
+        },
+      }
+    );
+
 export type ObjectName = 'RC:TxtMsg' | 'RC:ReferenceMsg' | 'RC:FileMsg' | 'RC:ImgMsg' | 'RC:HQVCMsg' | 'RC:VcMsg' | 'RC:GIFMsg' | 'RC:LBSMsg' | 'RC:SightMsg';
 
 export const MessageDirection = {
@@ -141,11 +156,11 @@ type RongCloudChatType = {
 
 const clearInfoCache: RongCloudChatType['clearInfoCache'] = () => {
   if (Platform.OS === 'ios') {
-    RongCloudChat.clearInfoCache();
+    RongCloudChatNativeModule.clearInfoCache();
   }
 };
 
-const emitter = new NativeEventEmitter(RongCloudChat);
+const emitter = new NativeEventEmitter(RongCloudChatNativeModule);
 
 const addConnectionStatusListener: RongCloudChatType['addConnectionStatusListener'] = (listener) => emitter.addListener('onRCIMConnectionStatusChanged', listener);
 
@@ -158,20 +173,20 @@ const addChatLatestMessageListener: RongCloudChatType['addChatLatestMessageListe
 const addInfoRequestedListener: RongCloudChatType['addInfoRequestedListener'] = (listener) => emitter.addListener('onRCIMInfoRequested', listener);
 
 const RongCloudChatModule: RongCloudChatType = {
-  init: RongCloudChat.init,
-  disableMessageAlertSound: RongCloudChat.disableMessageAlertSound,
-  disableMessageNotification: RongCloudChat.disableMessageNotification,
-  connect: RongCloudChat.connect,
-  getConnectionStatus: RongCloudChat.getConnectionStatus,
-  disconnect: RongCloudChat.disconnect,
-  logout: RongCloudChat.logout,
-  openChat: RongCloudChat.openChat,
-  refreshInfoCache: RongCloudChat.refreshInfoCache,
+  init: RongCloudChatNativeModule.init,
+  disableMessageAlertSound: RongCloudChatNativeModule.disableMessageAlertSound,
+  disableMessageNotification: RongCloudChatNativeModule.disableMessageNotification,
+  connect: RongCloudChatNativeModule.connect,
+  getConnectionStatus: RongCloudChatNativeModule.getConnectionStatus,
+  disconnect: RongCloudChatNativeModule.disconnect,
+  logout: RongCloudChatNativeModule.logout,
+  openChat: RongCloudChatNativeModule.openChat,
+  refreshInfoCache: RongCloudChatNativeModule.refreshInfoCache,
   clearInfoCache,
-  clearHistoryMessages: RongCloudChat.clearHistoryMessages,
-  clearMessagesUnreadStatus: RongCloudChat.clearMessagesUnreadStatus,
-  markAllConversationsAsRead: RongCloudChat.markAllConversationsAsRead,
-  sendMessage: RongCloudChat.sendMessage,
+  clearHistoryMessages: RongCloudChatNativeModule.clearHistoryMessages,
+  clearMessagesUnreadStatus: RongCloudChatNativeModule.clearMessagesUnreadStatus,
+  markAllConversationsAsRead: RongCloudChatNativeModule.markAllConversationsAsRead,
+  sendMessage: RongCloudChatNativeModule.sendMessage,
   addConnectionStatusListener,
   addMessageReceivedListener,
   addChatClosedListener,

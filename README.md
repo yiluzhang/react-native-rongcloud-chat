@@ -12,6 +12,18 @@
 yarn add react-native-rongcloud-chat
 ```
 
+### Android 注意事项
+
+当前 Android 实现仍基于 React Native 旧版 bridge 模块。
+
+如果你的应用启用了 New Architecture，请先在 `android/gradle.properties` 中设置：
+
+```properties
+newArchEnabled=false
+```
+
+修改后需要重新安装 Android 应用，否则运行时会出现 `The native module 'RongCloudChat' is not available` 或 `Cannot read property 'init' of null`。
+
 ## Usage
 
 

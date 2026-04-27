@@ -1,8 +1,90 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+  <queries>
+    <intent>
+      <action android:name="android.intent.action.VIEW" />
+      <category android:name="android.intent.category.DEFAULT" />
+      <data android:mimeType="*/*" />
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.VIEW" />
+      <category android:name="android.intent.category.DEFAULT" />
+      <data android:mimeType="image/*" />
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.VIEW" />
+      <category android:name="android.intent.category.DEFAULT" />
+      <data android:mimeType="video/*" />
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.VIEW" />
+      <category android:name="android.intent.category.DEFAULT" />
+      <data android:mimeType="audio/*" />
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.VIEW" />
+      <category android:name="android.intent.category.DEFAULT" />
+      <data android:mimeType="text/*" />
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.VIEW" />
+      <category android:name="android.intent.category.DEFAULT" />
+      <data android:mimeType="application/pdf" />
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.VIEW" />
+      <category android:name="android.intent.category.DEFAULT" />
+      <data android:mimeType="application/msword" />
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.VIEW" />
+      <category android:name="android.intent.category.DEFAULT" />
+      <data android:mimeType="application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.VIEW" />
+      <category android:name="android.intent.category.DEFAULT" />
+      <data android:mimeType="application/vnd.ms-excel" />
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.VIEW" />
+      <category android:name="android.intent.category.DEFAULT" />
+      <data android:mimeType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.VIEW" />
+      <category android:name="android.intent.category.DEFAULT" />
+      <data android:mimeType="application/vnd.ms-powerpoint" />
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.VIEW" />
+      <category android:name="android.intent.category.DEFAULT" />
+      <data android:mimeType="application/vnd.openxmlformats-officedocument.presentationml.presentation" />
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.VIEW" />
+      <category android:name="android.intent.category.DEFAULT" />
+      <data android:mimeType="application/zip" />
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.VIEW" />
+      <category android:name="android.intent.category.DEFAULT" />
+      <data android:mimeType="application/x-rar-compressed" />
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.VIEW" />
+      <category android:name="android.intent.category.DEFAULT" />
+      <data android:mimeType="application/vnd.android.package-archive" />
+    </intent>
+  </queries>
   <application>
     <activity
       android:name=".RongCloudChatActivity"
       android:exported="true"
+      android:screenOrientation="portrait"
+      android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+    <activity
+      android:name=".SafeFilePreviewActivity"
+      android:exported="false"
       android:screenOrientation="portrait"
       android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
   </application>
